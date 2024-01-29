@@ -2,11 +2,14 @@ package my.java.practice;
 
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 //import lombok.AllArgsConstructor;
@@ -72,20 +75,45 @@ public class Random {
     public Employee createEmployee(Integer id, String name, Double salary) {
         return new Employee(id, name, salary);
     }
+    
+    //are two string an anagram
+    public static boolean areStringAnagram(String str1, String str2) {
+    	
+    	Map<Integer, String> map1 = new HashMap<>();
+    	Map<Integer, String> map2 = new HashMap<>();
+    	
+    	String[] arr1 = str1.split("");
+    	String[] arr2 = str2.split("");
+    	
+    	AtomicInteger ai1 = new AtomicInteger(0);
+    	AtomicInteger ai2 = new AtomicInteger(0);
+  	
+    	Arrays.stream(arr1).forEach(p -> map1.put(ai1.incrementAndGet(), p));
+    	Arrays.stream(arr2).forEach(p -> map2.put(ai2.incrementAndGet(), p));
+    	
+    	if(map1.size() != map2.size())
+    		return false;
+    	
+    	for(int i = 1; i <= arr1.length; i++) {
+    		
+    		String curr = map1.get(i);
+    		if(!map2.containsValue(curr))
+    			return false;
+    	}
+    		
+    	return true;
+    }
+    
 
 
     public static void main(String[] args) {
         
-    	System.out.println(isPrimeNumber(11));
-
-        int[][] array = {{2, 2, 2, 2}, {3, 3, 3, 3}, {4, 4, 4, 4}};
-
-        int[][] array1 = {{-7, 100, -100, 59}, {200, -1000, 1, 5}, {1, 1, -70, 300}};
-        printSumOfRows2DArray(array);
-
-        printSumOfCols2DArray(array);
-
-        printLargestValOfEachRow(array1);
+    	System.out.println(xn(2, 2, 1));
+//    	String str1 = "cronin Ernest!";
+//    	String str2 = "Ernest Cronin!";
+//    	
+//    	System.out.println(areStringAnagram(str1.toLowerCase(), str2.toLowerCase()));
+  
     }
 
     public static void ternaryAssignment() {
@@ -147,7 +175,7 @@ public class Random {
         }
     }
 
-    //problem to count words in a string
+    //problem to count unique words in a string
     public static int countWords(String str) {
 
         Map<Integer, String> map = new HashMap<>();
@@ -179,7 +207,7 @@ public class Random {
 
     
     //reverse a string
-    //stringBuffer is no longer preferred due to syncronization
+    //stringBuffer is no longer preferred due to synchronization
     public static String reverse(String str) {
         StringBuilder buffer = new StringBuilder();
 
@@ -194,9 +222,9 @@ public class Random {
         build.append(str);
         return build.reverse()
                 .toString();
-
     }
-
+    
+    
     public static int xn(int value, int x, int n) {
         if ((x == 1 && value == 0) || (n == 0 && value == 0)) return 1;
         if (n == 1) return value;
@@ -235,6 +263,7 @@ public class Random {
         return numb.length();
 
     }
+   
 
     //print sum of rows in a 2D array
     public static void printSumOfRows2DArray(int[][] array) {
