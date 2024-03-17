@@ -3,12 +3,14 @@ package my.java.practice;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -108,7 +110,18 @@ public class Random {
 
     public static void main(String[] args) {
         
-    	System.out.println(xn(2, 2, 1));
+    	List<String> strs = new LinkedList<>();
+    	String[] arr = {"str1", "str2", "str3"};
+    	Collections.addAll(strs, arr);
+    	LinkedList<String> rev = reverseLinkedList((LinkedList)strs);
+    	rev.stream().forEach(p -> System.out.println(p));
+    	
+    	String str1 = "string";
+    	String str2 = "string";
+    	String str3 = new String("string");
+    	str1 = "hi";
+    	System.out.println(str1);
+    	
 //    	String str1 = "cronin Ernest!";
 //    	String str2 = "Ernest Cronin!";
 //    	
@@ -180,6 +193,9 @@ public class Random {
 
         Map<Integer, String> map = new HashMap<>();
         String[] words = str.split(" ");
+        
+        Arrays.sort(words, String.CASE_INSENSITIVE_ORDER);
+        
         for (int i = 0; i < words.length; i++) {
             if (!map.containsValue(words[i])) {
                 map.put(i, words[i]);
@@ -317,5 +333,48 @@ public class Random {
             }
             System.out.println("Largest value in row " + (i + 1) + " is: " + largest);
         }
+    }
+    
+    public static LinkedList<String> reverseLinkedList(LinkedList<String> strings) {
+    	
+    	List<String> reversed = new LinkedList<>();
+    	Iterator<String> it = strings.descendingIterator();
+    	while(it.hasNext())
+    		reversed.add(it.next());
+    	return (LinkedList<String>)reversed;
+    }
+    
+    public static boolean print() {
+    	
+    	int[] x = {1, 1, 2, 2, 3, 3, 3};
+    	int[] y = {1, 1, 2, 2, 3, 3, 3};
+    	
+    	List<Integer> list1 = Arrays.stream(x).boxed().toList();
+    	List<Integer> list2 = Arrays.stream(y).boxed().toList();
+    	List<Integer> list3 = Arrays.asList(1,2,3,4);
+    	
+    	Map<Integer, Integer> map1 = new HashMap<>();
+    	Map<Integer, Integer> map2 = new HashMap<>();
+    	
+    	for(int i = 0; i< list1.size(); i++) {
+    		int count = 1;
+    		map1.put(count++, list1.get(i));
+    	}
+    	for(int i = 0; i< list2.size(); i++) {
+    		int count = 1;
+    		map2.put(count++, list2.get(i));
+    	}
+    	
+    	if(map2.size() != map1.size())
+    		return false;
+    	
+    	Iterator<Entry<Integer, Integer>> it = map1.entrySet().iterator();
+    	while(it.hasNext()) {
+    		Integer value = it.next().getValue();
+    		
+    		if(!map2.containsValue(value))
+    			return false;
+    	}
+    	return true;
     }
 }
